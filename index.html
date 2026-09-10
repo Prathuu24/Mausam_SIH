@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mausam AI PWA</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1E2A46">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="app-container" class="app-shell">
+
+    <!-- Top Navigation Bar -->
+    <header class="topbar">
+      <div class="topbar__brand">
+        <span class="devanagari">मौसम</span>
+        <span class="wordmark">Mausam</span>
+      </div>
+      <button onclick="logout()" title="Logout" id="logout-btn" class="hidden exit-btn">
+        <span class="material-icons" style="font-size:16px;">logout</span> Exit
+      </button>
+    </header>
+
+    <!-- SCREEN 1: LOGIN -->
+    <section id="login-screen" class="screen">
+      <div class="hero-panel">
+        <div class="sky-art">
+          <div class="cloud cloud--a"></div>
+          <div class="cloud cloud--b"></div>
+          <div class="sun"></div>
+        </div>
+        <h2 class="brand-mark">Welcome to Mausam</h2>
+        <p class="tagline">Sign in for advisories built around your sky</p>
+      </div>
+
+      <form id="login-form" onsubmit="handleLogin(event)" class="form-panel">
+        <div class="field">
+          <label for="user-name">Full name</label>
+          <input type="text" id="user-name" required placeholder="e.g., Ramesh Kumar">
+        </div>
+
+        <div class="field">
+          <label for="user-phone">Mobile / ID</label>
+          <input type="tel" id="user-phone" required placeholder="10-digit mobile number" pattern="[0-9]{10}">
+        </div>
+
+        <div class="field" style="position: relative;">
+            <label for="user-city">Location / district (India Only)</label>
+            <input type="text" id="user-city" required placeholder="e.g., Pune, Varanasi, or Surat" autocomplete="off">
+            <div id="user-city-dropdown" class="autocomplete-list hidden"></div>
+        </div>
+
+        <button type="submit" id="login-submit-btn" class="btn-primary">Continue</button>
+      </form>
+    </section>
+
+    <!-- SCREEN 2: ONBOARDING / PERSONA SELECTION -->
+    <section id="onboarding-screen" class="screen hidden screen-pad">
+      <div class="screen-heading">
+        <h2>Select your daily profile</h2>
+        <p>Mausam reorders cards and alerts to fit your workday.</p>
+      </div>
+
+      <div class="persona-list">
+        <!-- Farmer Profile -->
+        <div onclick="selectPersona('Farmer')" class="persona-plate persona-plate--farmer">
+          <span class="plate-badge">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21V10" stroke="#1F5C4F" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M12 10C12 10 7 9.5 6 5.5C10.5 5.5 12 10 12 10Z" fill="#2E7D6B"/>
+              <path d="M12 13C12 13 17 12.5 18 8.5C13.5 8.5 12 13 12 13Z" fill="#2E7D6B"/>
+              <path d="M9 21H15" stroke="#1F5C4F" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <div>
+            <h3>Farmer (Kisan)</h3>
+            <p>Precipitation radar, spray wind index, 7-day sowing forecast, and soil moisture.</p>
+          </div>
+        </div>
+
+        <!-- Urban Commuter Profile -->
+        <div onclick="selectPersona('Urban Commuter')" class="persona-plate persona-plate--commuter">
+          <span class="plate-badge">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="6" width="16" height="10" rx="2" stroke="#33517F" stroke-width="1.6"/>
+              <circle cx="8" cy="18" r="1.4" fill="#33517F"/>
+              <circle cx="16" cy="18" r="1.4" fill="#33517F"/>
+              <path d="M4 11H20" stroke="#33517F" stroke-width="1.6"/>
+            </svg>
+          </span>
+          <div>
+            <h3>Urban Commuter</h3>
+            <p>2-hour nowcast, transit flood alerts, live AQI index, and peak heat tracking.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 3: DASHBOARD -->
+    <section id="dashboard-screen" class="screen hidden">
+      <div class="dash-hero">
+        <div class="dash-hero__top">
+          <span id="user-greeting">Hi, User</span>
+          <span id="location-badge" class="location-badge">New Delhi</span>
+        </div>
+        <div class="dash-hero__main">
+          <div>
+            <h2 id="temp-display" class="temp-display">--°</h2>
+            <p id="weather-desc" class="weather-desc">Fetching live weather...</p>
+          </div>
+          <div class="sky-art sky-art--sm">
+            <div class="cloud cloud--a"></div>
+            <div class="cloud cloud--b"></div>
+            <div class="sun"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-body">
+        
+        <!-- AI Advisory WITH Voice Button -->
+        <div class="advisory-note">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div class="advisory-note__label" style="margin-bottom:0;"><span class="dot"></span>Today's read</div>
+            <button onclick="readAdvisoryOutLoud()" class="voice-btn" title="Listen to advisory">
+              <span class="material-icons" style="font-size:16px;">volume_up</span>
+            </button>
+          </div>
+          <p id="ai-advisory">Generating AI insights...</p>
+        </div>
+
+        <!-- FARMER WIDGETS -->
+        <div id="farmer-widgets" class="hidden">
+          <p class="section-label">Agricultural parameters</p>
+          <div class="metrics-row">
+            <div class="gauge-card">
+              <div class="gauge" id="wind-gauge">
+                <div class="gauge__value"><span id="farmer-wind">--</span></div>
+              </div>
+              <p class="gauge-card__label">Spray drift wind</p>
+              <p class="gauge-card__hint" id="farmer-wind-advisory">Optimal &lt; 15 km/h</p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__label">
+                <span class="material-icons" style="font-size:16px;color:#33517F;">water_drop</span> Rain risk (24h)
+              </div>
+              <p class="stat-card__value" id="rain-probability">12%</p>
+              <p class="stat-card__note">Safe for field spraying</p>
+            </div>
+          </div>
+          <div class="notice-card notice-card--amber">
+            <span class="material-icons">grass</span>
+            <div>
+              <h4>Crop health notice</h4>
+              <p>High morning humidity expected. Monitor wheat/mustard for early pest development.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMMUTER WIDGETS -->
+        <div id="commuter-widgets" class="hidden">
+          <p class="section-label">Commute & air conditions</p>
+          <div class="metrics-row">
+            <div class="gauge-card">
+              <div class="gauge gauge--alert" id="aqi-gauge">
+                <div class="gauge__value" id="aqi-display">214</div>
+              </div>
+              <p class="gauge-card__label">Air quality (AQI)</p>
+              <p class="gauge-card__hint">N95 recommended outdoors</p>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__label">
+                <span class="material-icons" style="font-size:16px;color:#C97E1E;">wb_twilight</span> UV index
+              </div>
+              <p class="stat-card__value">6</p>
+              <p class="stat-card__note stat-card__note--alert">Sun cover needed 12–3 PM</p>
+            </div>
+          </div>
+          <div class="notice-card notice-card--sky">
+            <span class="material-icons">schedule</span>
+            <div>
+              <h4>Commute window (5–8 PM)</h4>
+              <p>Clear roads expected. Zero waterlogging alerts reported along primary corridors.</p>
+            </div>
+          </div>
+
+          <!-- UPGRADED: Dynamic Route-Based Weather Widget -->
+          <p class="section-label" style="margin-top: 18px;">Route forecast</p>
+          <div class="stat-card" style="margin-bottom: 16px; padding-bottom: 12px;">
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+              <div style="position: relative;">
+                <input type="text" id="route-start" class="route-input" placeholder="Start (e.g., Pune)" autocomplete="off">
+                <div id="route-start-dropdown" class="autocomplete-list hidden"></div>
+              </div>
+              <div style="position: relative;">
+                <input type="text" id="route-dest" class="route-input" placeholder="Destination (e.g., Surat)" autocomplete="off">
+                <div id="route-dest-dropdown" class="autocomplete-list hidden"></div>
+              </div>
+              <button onclick="calculateRoute()" class="btn-primary" style="padding: 10px; font-size: 0.8rem; margin-top: 4px;">
+                Scan Route
+              </button>
+            </div>
+            
+            <div id="route-result" class="hidden fade-in">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+                 <div style="text-align: center; width: 30%;">
+                   <p style="font-size: 0.7rem; color: var(--ink-soft); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="route-start-name">Start</p>
+                   <span class="material-icons" id="route-start-icon" style="color: var(--marigold);">wb_sunny</span>
+                 </div>
+                 <div style="flex: 1; border-top: 2px dashed var(--line); margin: 0 8px; position: relative; top: -6px;">
+                    <span class="material-icons" style="position: absolute; right: -8px; top: -11px; color: var(--line); font-size: 18px;">chevron_right</span>
+                 </div>
+                 <div style="text-align: center; width: 30%;">
+                   <p style="font-size: 0.7rem; color: var(--ink-soft); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="route-dest-name">End</p>
+                   <span class="material-icons" id="route-dest-icon" style="color: var(--sky-mid);">cloud</span>
+                 </div>
+              </div>
+              <p id="route-advice" style="font-size: 0.75rem; color: var(--teal-deep); text-align: center; margin: 4px 0 0; font-weight: 600;">Calculating...</p>
+            </div>
+          </div>
+        </div>
+        
+        <button onclick="switchProfile()" class="link-button">Change persona profile</button>
+      </div>
+    </section>
+
+    <!-- NEW: Community Report Floating Button -->
+    <button id="report-fab" onclick="toggleReportModal(true)" class="fab-btn hidden">
+      <span class="material-icons">campaign</span>
+    </button>
+
+    <!-- NEW: Community Report Modal -->
+    <div id="report-modal" class="modal-overlay hidden">
+      <div class="modal-content screen">
+        <h3>Report Local Weather Issue</h3>
+        <p>Alert other users in your area instantly.</p>
+        
+        <button onclick="submitReport('Severe Waterlogging')" class="report-option">
+          <span class="material-icons" style="color:var(--sky-mid);">water</span> Severe Waterlogging
+        </button>
+        <button onclick="submitReport('Fallen Tree / Roadblock')" class="report-option">
+          <span class="material-icons" style="color:var(--marigold-deep);">park</span> Fallen Tree / Roadblock
+        </button>
+        <button onclick="submitReport('Unexpected Hailstorm')" class="report-option">
+          <span class="material-icons" style="color:var(--ink-soft);">ac_unit</span> Unexpected Hailstorm
+        </button>
+        
+        <button onclick="toggleReportModal(false)" class="link-button" style="padding-top:12px;">Cancel</button>
+      </div>
+    </div>
+
+  </div> <!-- End App Container -->
+
+  <script src="app.js"></script>
+</body>
+</html>
