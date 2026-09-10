@@ -1,334 +1,73 @@
+<div align="center">
+
+<!-- You can replace this placeholder with a real banner image later -->
+<img src="https://via.placeholder.com/1000x250/1E2A46/E8A33D?text=Mausam+AI+🌤️" alt="Mausam Banner" width="100%">
+
 # Mausam AI 🌤️
 
-> **Smart India Hackathon 2026 Prototype**
+**Smart India Hackathon Prototype**  
+*Hyper-Local, Persona-Driven Weather Intelligence*
 
-A persona-driven Progressive Web App (PWA) delivering **actionable, hyper-local weather intelligence** for India.
+<p align="center">
+  <img src="https://img.shields.io/badge/PWA-Ready-1E2A46?style=for-the-badge&logo=pwa&logoColor=white" alt="PWA Ready">
+  <img src="https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="Vanilla JS">
+  <img src="https://img.shields.io/badge/API-Open_Meteo-2E7D6B?style=for-the-badge&logo=json&logoColor=white" alt="Open Meteo API">
+  <img src="https://img.shields.io/badge/UI-Custom_CSS-C24A3B?style=for-the-badge&logo=css3&logoColor=white" alt="Custom CSS">
+</p>
 
-Instead of presenting passive meteorological data, **Mausam AI** translates live weather conditions into proactive decisions tailored specifically for **Farmers** and **Urban Commuters**.
+> Normal apps tell you the weather. **Mausam AI tells you what to do about it.**
 
----
-
-## 🚀 Why Mausam AI?
-
-Weather apps usually tell users **what the weather is**.
-
-Mausam AI focuses on **what the user should do about it**.
-
-For example:
-
-* 🌾 **Farmer:** *"Rain probability is high and wind conditions may affect spraying. Consider postponing pesticide application."*
-* 🚗 **Commuter:** *"Heavy rain is expected along your route. Allow additional travel time and watch for waterlogging."*
-
-The goal is to convert raw weather data into **simple, contextual and actionable intelligence**.
+</div>
 
 ---
 
-## ✨ Core Features
+## ⚡ The Vision
 
-### 👤 Persona-Based Intelligence
-
-Mausam AI provides different experiences depending on the user's needs.
-
-#### 🌾 Farmer Dashboard
-
-* Rain probability and precipitation risk
-* Wind conditions for crop spraying
-* Wind drift awareness
-* Weather-based field advisories
-* Voice-read advisories for accessibility
-
-#### 🚗 Urban Commuter Dashboard
-
-* Live weather conditions
-* AQI information
-* UV transit index
-* Route-based weather forecasting
-* Alerts for potentially hazardous conditions
+India's diverse workforce requires distinct environmental data. A corporate worker in Delhi and a farmer in Punjab shouldn't be looking at the same generic weather app. Mausam AI bypasses traditional passive meteorological data by employing **dynamic logic matrices** to reduce cognitive load—translating live weather conditions into proactive, actionable decisions.
 
 ---
 
-### 📍 India-Strict Location Search
+## 👥 Persona-Driven Dashboards
 
-Mausam AI uses the **Open-Meteo Geocoding API** to provide live location search.
-
-The autocomplete system:
-
-* Searches locations dynamically
-* Filters results to India
-* Surfaces Indian districts and municipalities
-* Makes selecting a precise location easier
+| 🌾 For the Farmer (Kisan) | 🏢 For the Urban Commuter |
+| :--- | :--- |
+| **Spray Drift Index:** Wind velocity gauges to prevent pesticide chemical drift. | **Route Scanning:** Enter a start and end destination to scan the route for rain or fog. |
+| **Rain Risk (24h):** Hyper-local precipitation probability for sowing windows. | **Transit Health:** Live Air Quality Index (AQI) and peak UV tracking. |
+| **Crop Health Notice:** Humidity-driven early warnings for pest development. | **Commute Windows:** Safe transit time recommendations and flood alerts. |
 
 ---
 
-### 🛣️ Dynamic Route Forecasting
+## 🚀 Showstopper Features
 
-Commuters can enter:
+### 🎙️ Vernacular Voice Assistant
+Built for maximum digital inclusion. Using the native Web Speech API, Mausam AI reads complex field advisories out loud, ensuring accessibility for users with limited literacy or visual impairments.
 
-**Start → Destination**
+### 🚨 "Waze-for-Weather" (Crowdsourcing)
+Satellites can't see a flooded street. Mausam includes a Floating Action Button (FAB) for users to report hyper-local ground truth (e.g., Severe Waterlogging, Fallen Trees). This instantly injects **Red Alert banners** into the dashboards of local users.
 
-Mausam AI analyzes weather conditions along the journey and highlights potential problems such as:
+### 🎨 Dynamic Atmospheric UI
+The app interface reacts to the API. Using real-time WMO weather codes, the UI seamlessly shifts between **Day, Night, Cloudy, and Stormy** themes—complete with animated CSS rain droplets.
 
-* 🌧️ Rain
-* 🌫️ Fog
-* ⚠️ Hazardous weather
-* 🌊 Potential waterlogging conditions
-
-This turns a normal weather forecast into a **route-aware travel forecast**.
-
----
-
-### 🚨 Community Weather Reports
-
-Mausam AI introduces a community-driven **"Waze-for-Weather"** concept.
-
-Users can report hyper-local problems such as:
-
-* 🌊 Severe waterlogging
-* 🌳 Fallen trees
-* 🚧 Weather-related road problems
-* ⚠️ Other local hazards
-
-Reports can appear as **red alerts** for users in the affected area.
+### 🌍 Global Geocoding with Strict Indian Filters
+Integrated with a live autocomplete search powered by the Open-Meteo Geocoding API. To suit the SIH problem statement, search results are strictly filtered to Indian municipalities and districts via asynchronous JavaScript arrays.
 
 ---
 
-### 🔊 Vernacular Voice Assistant
+## 🛠️ Architecture & Tech Stack
 
-Weather advisories can be read aloud using the browser's **Web Speech API**.
+This project is built for speed, accessibility, and zero-dependency deployment.
 
-This improves accessibility for:
-
-* Users with limited literacy
-* Users who prefer listening over reading
-* Visually impaired users
-* Users who prefer regional-language interaction
+*   **Frontend Ecosystem:** Vanilla HTML5, CSS3 (Custom Design System), JavaScript (ES6).
+*   **Data Pipelines:** Open-Meteo Weather API & Open-Meteo Geocoding API.
+*   **State Management:** LocalStorage API for persistent user authentication and UI state.
+*   **Deployment:** Progressive Web App (PWA) compliant with fully configured `manifest.json` and `sw.js` (Service Worker) for offline fallback. Ready for immediate `.apk` wrapping via PWABuilder.
 
 ---
 
-### 🎨 Dynamic Weather Interface
+## ⚙️ How to Run Locally
 
-The interface responds to real-time weather conditions.
+Because this project relies entirely on client-side rendering and public APIs, there is no complex build pipeline, server configuration, or `npm install` required.
 
-Themes dynamically adapt according to:
-
-* ☀️ Day
-* 🌙 Night
-* ☁️ Cloudy conditions
-* 🌧️ Rain
-
-Rain conditions can also trigger animated CSS effects to make the weather state immediately recognizable.
-
-Weather conditions are interpreted using **WMO weather codes**.
-
----
-
-## 🧠 How It Works
-
-```text
-                    ┌──────────────────┐
-                    │     User         │
-                    └────────┬─────────┘
-                             │
-                             ▼
-                  ┌─────────────────────┐
-                  │  Select Persona     │
-                  │ Farmer / Commuter   │
-                  └─────────┬───────────┘
-                            │
-                            ▼
-                 ┌──────────────────────┐
-                 │  Location Search     │
-                 │ Open-Meteo Geocoding │
-                 └──────────┬───────────┘
-                            │
-                            ▼
-                  ┌─────────────────────┐
-                  │   Weather Data      │
-                  │    Open-Meteo       │
-                  └─────────┬───────────┘
-                            │
-             ┌──────────────┴──────────────┐
-             ▼                             ▼
-      ┌───────────────┐           ┌────────────────┐
-      │ Farmer        │           │ Urban Commuter │
-      │ Intelligence  │           │ Intelligence   │
-      └───────┬───────┘           └───────┬────────┘
-              │                           │
-              └──────────────┬────────────┘
-                             ▼
-                   ┌──────────────────┐
-                   │ Actionable       │
-                   │ Weather Advice   │
-                   └──────────────────┘
-```
-
----
-
-## 🛠️ Tech Stack
-
-### Frontend
-
-* **HTML5**
-* **CSS3**
-* **JavaScript (ES6)**
-
-### APIs
-
-* **Open-Meteo Weather API** — Live weather and precipitation data
-* **Open-Meteo Geocoding API** — Location search and coordinates
-
-### Architecture
-
-* **Progressive Web App (PWA)**
-* Service Worker
-* Offline-ready architecture
-* Client-side rendering
-
----
-
-## 🌐 APIs Used
-
-### Open-Meteo
-
-Mausam AI uses Open-Meteo for weather and geocoding data.
-
-No complex backend or API-key setup is required for the prototype.
-
----
-
-## ⚙️ Installation & Usage
-
-Mausam AI is designed to run directly in the browser and does not require a traditional build pipeline.
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/yourusername/mausam-ai.git
-cd mausam-ai
-```
-
-### 2. Run the project
-
-Because the application uses a Service Worker and PWA functionality, it is recommended to serve the project through a local HTTP server rather than opening `index.html` directly.
-
-For example, using Python:
-
-```bash
-python -m http.server 8000
-```
-
-Then open:
-
-```text
-http://localhost:8000
-```
-
-### 3. Use Mausam AI
-
-1. Select your persona.
-2. Search for an Indian location.
-3. View the weather intelligence dashboard.
-4. Check relevant alerts and advisories.
-5. Commuters can enter a route to view weather conditions along the journey.
-6. Users can submit community weather reports.
-7. Use the voice assistant to hear advisories.
-
----
-
-## 📱 Progressive Web App
-
-Mausam AI is built as a **PWA**, allowing it to provide an app-like experience through a browser.
-
-The architecture includes:
-
-* Service Worker support
-* Offline-ready functionality
-* Responsive interface
-* Mobile-friendly design
-* Installable web-app architecture
-
----
-
-## 🎯 Target Users
-
-| Persona               | Key Problems Addressed                         |
-| --------------------- | ---------------------------------------------- |
-| 🌾 Farmers            | Rain risk, wind conditions, spraying decisions |
-| 🚗 Urban Commuters    | Route weather, rain, fog, AQI and UV           |
-| 🏘️ Local Communities | Hyper-local weather-related incidents          |
-| ♿ Accessibility Users | Voice-based weather advisories                 |
-
----
-
-## 🇮🇳 Designed for India
-
-Mausam AI is designed around Indian users and locations.
-
-The platform focuses on:
-
-* Indian districts
-* Indian municipalities
-* Hyper-local weather conditions
-* Regional accessibility
-* Vernacular voice interaction
-* Rural and urban use cases
-
----
-
-## 💡 Future Scope
-
-Potential future improvements include:
-
-* 🤖 AI-powered personalized advisories
-* 🌾 Crop-specific recommendations
-* 📍 More granular location-based alerts
-* 🗺️ Interactive weather and hazard maps
-* 🛰️ Satellite/weather radar integration
-* 📲 Push notifications
-* 🗣️ More Indian regional languages
-* 👥 Improved community-report verification
-* 🚦 Traffic-aware route recommendations
-* 📊 Historical weather analytics
-* 🔔 Severe-weather notification system
-
----
-
-## 🏆 Smart India Hackathon
-
-**Mausam AI** is developed as a prototype for **Smart India Hackathon 2026**.
-
-The project focuses on using accessible web technologies and live weather data to transform conventional weather information into **persona-specific, actionable intelligence**.
-
----
-
-## 👨‍💻 Project Structure
-
-```text
-mausam-ai/
-│
-├── index.html
-├── style.css
-├── script.js
-│
-├── manifest.json
-├── service-worker.js
-│
-├── assets/
-│   ├── icons/
-│   └── images/
-│
-└── README.md
-```
-
----
-
-## 📄 License
-
-This project is currently a prototype developed for educational and hackathon purposes.
-
----
-
-## 🌤️ Mausam AI
-
-**Don't just check the weather.
-Understand what it means for you.**
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/yourusername/mausam-ai.git](https://github.com/yourusername/mausam-ai.git)
